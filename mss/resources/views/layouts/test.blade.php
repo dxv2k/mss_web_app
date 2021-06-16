@@ -27,82 +27,81 @@
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <!-- Home -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="homepage.html">Home</a>
+                    <a class="nav-link" href="">Home</a>
                 </li>
                 <!-- Separator -->
                 <li class="nav-item">
-                    <a class="nav-link" href="./users_UI/login.php">Separator</a>
+                    <a class="nav-link" href="">Separator</a>
                 </li>
                 <!-- Mixer -->
                 <li class="nav-item">
-                    <a class="nav-link" href="./users_UI/login.php">Mixer</a>
+                    <a class="nav-link" href="">Mixer</a>
                 </li>
             </ul>
             <!-- Right navigation -->
             <div>
-                @guest 
-                    @if (Route::has('login'))
-                    <!-- Login -->
-                        <a href="./users_UI/login.php">
-                            <button class="header-button"> Login </button>
-                        </a>
-                        <!-- Register -->
-                        <a href="./users_UI/login.php">
-                            <button class="header-button"> Register </button>
-                        </a>
-                    @endif
+                @guest
+                @if (Route::has('login'))
+                <!-- Login -->
+                    <a href="{{route()}}">
+                        <button class="header-button"> Login </button>
+                    </a>
+                    <!-- Register -->
+                    <a href="./users_UI/login.php">
+                        <button class="header-button"> Register </button>
+                    </a>
+                @endif
                 @else
                     <!-- Already logged in  -->
                     <div class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            Hi, {{ Auth::user()->name }}! 
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            Hi, {{ Auth::user()->name }}!
 
                         </a>
-                        <a href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                        document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                            document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
                         <!-- Tuan Self code -->
                         <!-- <div class="user-option dropdown">
-                            <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-                                <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li><a href="./my_files.php">My Files</a></li>
-                                <li><a href="../utils/logout.php">Log Out</a></li>
-                            </ul>
-                        </div> -->
+                                <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                    <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="./my_files.php">My Files</a></li>
+                                    <li><a href="../utils/logout.php">Log Out</a></li>
+                                </ul>
+                            </div> -->
                         <!-- Laravel -->
                         <!-- <div class="user-option dropdown">
-                            <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-                                <span class="caret"></span></button>
-                            <ul class="dropdown-menu"> 
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"> 
+                                <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                    <span class="caret"></span></button>
+                                <ul class="dropdown-menu"> 
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('logout') }}"> 
 
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </li>
-                            </ul> 
-                        </div> -->
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                </ul> 
+                            </div> -->
                     </div>
-
-                @endguest 
+                @endguest
             </div>
         </div>
     </nav>
 </header>
 
-<main>
+<body> 
     @yield('content')
-    <footer>This is footer</footer>
-</main>
-
+</body> 
+<footer> 
+</footer>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
