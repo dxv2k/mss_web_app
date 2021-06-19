@@ -13,15 +13,18 @@ class CreateFilesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('files');
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('file_path')->nullable();
             $table->timestamps();
+            $table->string('name')->nullable(); 
+            $table->string('file_path')->nullable(); 
+
+            $table->unsignedInteger('user_id'); 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
-
-    /**
+   /**
      * Reverse the migrations.
      *
      * @return void

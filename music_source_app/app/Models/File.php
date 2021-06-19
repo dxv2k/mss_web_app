@@ -11,8 +11,8 @@ class File extends Model
     protected $fillable = [
         'name', 
         'file_path', 
-    ]; 
+    ];
     public function user(){ 
-        return $this->belongsTo('App\User'); 
+        return $this->hasOne('App\User');
     }
 }
