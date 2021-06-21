@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,3 +26,7 @@ Route::get('/separator', function(){
 }); 
 
 // This demo test to query 
+Route::get('/upload-file', 'App\Http\Controllers\FileUpload@createForm');
+Route::post('/upload-file', 'App\Http\Controllers\FileUpload@fileUpload')->name('fileUpload');
+
+// Route::post('/upload-file', [FileUpload::class, 'fileUpload'])->name('fileUpload');
