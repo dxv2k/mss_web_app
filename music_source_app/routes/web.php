@@ -27,13 +27,3 @@ Route::get('/separator', function(){
 }); 
 
 // This demo test to query 
-Route::get('/files/{id}', function(){ 
-    $files = \App\Models\File::all(); 
-    foreach($files as $file){ 
-        echo "<h6>".$file-> name."</h6>";  
-        echo "<h6>".$file-> user_id."</h6>";  
-    }
-}); 
-
-
-Route::resource('files'FileUploadController::class); 
