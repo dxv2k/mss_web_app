@@ -19,9 +19,8 @@ class CreateFilesTable extends Migration
             $table->timestamps();
             $table->string('name')->nullable(); 
             $table->string('file_path')->nullable(); 
-
+            
             $table->unsignedInteger('user_id'); 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
    /**
