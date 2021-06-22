@@ -14,9 +14,15 @@ class FileUpload extends Controller
 
     public function fileUpload(Request $req)
     {
+        // Debug 
+        dd($req->all());
+        if($req->radio){ 
+            dd($req['radio']);
+        }
+
         $req->validate([
             // 'file' => 'required|mimes:csv,txt,xlx,xls,pdf|max:2048'
-            'file' => 'required|mimes:mp3,wav,flac,aac,3gp|max:51200'
+            'file' => 'required|mimes:txt,mp3,wav,flac,aac,3gp|max:51200'
         ]);
 
         $fileModel = new File();
