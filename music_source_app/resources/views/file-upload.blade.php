@@ -47,7 +47,7 @@
                         </label>
                     </div>
                     <!-- Button -->
-                    <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">
+                    <button type="submit" name="submit" class="btn btn-danger btn-block mt-4">
                         Separate
                     </button>
                 </form>
