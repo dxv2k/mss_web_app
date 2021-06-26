@@ -25,7 +25,7 @@ class FileUpload extends Controller
 
         $req->validate([
             // 'file' => 'required|mimes:csv,txt,xlx,xls,pdf|max:2048'
-            'file' => 'required|mimes:txt,mp3,wav,flac,aac,3gp|max:51200'
+            'file' => 'required|mimes:jpg,txt,mp3,wav,flac,aac,3gp|max:51200'
         ]);
 
         $fileModel = new File();
@@ -38,19 +38,9 @@ class FileUpload extends Controller
             $fileModel->file_path = '/storage/' . $filePath;
             $fileModel->save();
 
-            // add python execute python script 
-            // $process = new Process(['python', 
-            //                         'C:\Users\razor\Documents\github\mss_web_app\hello.py']);
-
-            // $process = new Process(["python","C:/Users/razor/Documents/github/mss_web_app/hello.py"]);
-            // $process->run();
-            // // executes after the command finishes
-            // if (!$process->isSuccessful()) {
-            //     throw new ProcessFailedException($process);
-            // }
-            // echo $process->getOutput();
-            echo(shell_exec("python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1"));
-
+            // dd(shell_exec("conda activate audio")); 
+            // dd(shell_exec("python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1"));
+            dd(shell_exec("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1"));
             return back()
                 ->with('success', 'File has been uploaded.')
                 ->with('file', $fileName);
