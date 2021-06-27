@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\File;
+use App\Models\User;
 
 
 // // Call python script
@@ -27,7 +28,11 @@ class FileUpload extends Controller
             // 'file' => 'required|mimes:csv,txt,xlx,xls,pdf|max:2048'
             'file' => 'required|mimes:jpg,txt,mp3,wav,flac,aac,3gp|max:51200'
         ]);
-
+        // dd(auth()->user()->files());  
+        // dd(auth()->user()->files());  
+        // $user_id = auth()->user()->files(); 
+        // dd($user_id); 
+        // dd($req->user()->username); 
         $fileModel = new File();
         // dd($req->stems); 
         if ($req->file()) {
@@ -36,6 +41,10 @@ class FileUpload extends Controller
             $fileModel->stems = $req->stems; 
             $fileModel->name = time() . '_' . $req->file->getClientOriginalName();
             $fileModel->file_path = '/storage/' . $filePath;
+            $fileModel->user_id = $req->user()->id; 
+            // Testing here 
+
+            // 
             $fileModel->save();
 
             // dd(shell_exec("conda activate audio")); 

@@ -13,4 +13,7 @@ class File extends Model
         'file_path', 
         'stems'
     ];
+    public function user(){ 
+        return $this->belongsTo(User::class); 
+    }
 }
