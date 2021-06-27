@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\File;
 
 
-// Call python script
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
+// // Call python script
+// use Symfony\Component\Process\Process;
+// use Symfony\Component\Process\Exception\ProcessFailedException;
 
 
 class FileUpload extends Controller
@@ -29,11 +29,11 @@ class FileUpload extends Controller
         ]);
 
         $fileModel = new File();
-
+        // dd($req->stems); 
         if ($req->file()) {
             $fileName = time() . '_' . $req->file->getClientOriginalName();
             $filePath = $req->file('file')->storeAs('uploads', $fileName, 'public');
-
+            $fileModel->stems = $req->stems; 
             $fileModel->name = time() . '_' . $req->file->getClientOriginalName();
             $fileModel->file_path = '/storage/' . $filePath;
             $fileModel->save();
