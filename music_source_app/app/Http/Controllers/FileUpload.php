@@ -49,7 +49,8 @@ class FileUpload extends Controller
 
             // dd(shell_exec("conda activate audio")); 
             // dd(shell_exec("python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1"));
-            dd(shell_exec("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1"));
+            // dd(shell_exec("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1"));
+            shell_exec("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1");
             return back()
                 ->with('success', 'File has been uploaded.')
                 ->with('file', $fileName);

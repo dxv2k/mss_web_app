@@ -32,7 +32,7 @@
                         <label class="custom-file-label" for="chooseFile">Select file</label>
                     </div>
                     <!-- Stem Radio Button -->
-                    <div class="text-center btn-group btn-group-toggle" data-toggle="buttons">
+                    <div class="text-center btn-block btn-group btn-group-toggle" data-toggle="buttons">
                         <label class="btn btn-secondary active">
                             <input type="radio" value="2" name="stems" id="option1" autocomplete="off" checked>
                             2 stems
@@ -46,8 +46,8 @@
                             5 stems
                         </label>
                     </div>
-                    <!-- Button -->
-                    <button type="submit" name="submit" class="btn btn-danger btn-block mt-4">
+                    <!-- Submit Button -->
+                    <button type="submit" name="submit" class="btn btn-danger btn-block">
                         Separate
                     </button>
                 </form>
