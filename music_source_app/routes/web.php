@@ -29,4 +29,7 @@ Route::get('/separator', function(){
 Route::get('/upload-file', 'App\Http\Controllers\FileUpload@createForm');
 Route::post('/upload-file', 'App\Http\Controllers\FileUpload@fileUpload')->name('fileUpload');
 
+Route::get('/playback', function(){ 
+    return view('playback');
+}); 
 // Route::post('/upload-file', [FileUpload::class, 'fileUpload'])->name('fileUpload');
