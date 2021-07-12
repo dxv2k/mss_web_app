@@ -57,8 +57,9 @@ class FileUpload extends Controller
             // dd($path.$args); 
             // shell_exec($path.$args."2>&1"); 
             // dd(exec($path.$args."2>&1")); 
-            dd(shell_exec($path)); 
+            // dd(shell_exec($path)); 
             // dd(shell_exec("conda activate audio; python separator.py")); 
+            dd(system("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/st.py 2 C:/Users/razor/Documents/github/mss_web_app/music_source_app/trungtam.mp3 ./ 2>&1"));  
             return back()
                 ->with('success', 'File has been uploaded.')
                 ->with('file', $fileName);
