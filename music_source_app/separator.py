@@ -3,12 +3,27 @@ import argparse
 import os
 import warnings 
 warnings.filterwarnings('ignore')
-# separator = Separator('spleeter:' + sys.argv[1:][0])
-# separator.separate_to_file(sys.argv[2:][0], './')
-# parser = argparse.ArgumentParser(description="")
-# parser.add_argument("stems")
-# parser.add_argument("src_audio_path")
-# parser.add_argument("src_audio_path")
+
+def handle_args(): 
+    u''' 
+    Handling arguments 
+    '''
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('-ns',
+                        '--num_stems', 
+                        type = int,
+                        help = 'Number of stems; 2/4/5 stems separation')
+    parser.add_argument('-uid',
+                        '--user_id', 
+                        type = int,
+                        help = 'User ID')
+    parser.add_argument('-f',
+                        '--filename', 
+                        help = 'Set number of minimum matches keypoint',
+                        type=argparse.FileType('r')) 
+    args = parser.parse_args()
+
+    return args
 
 def perform_separate(
     num_stems, 
@@ -42,12 +57,9 @@ def perform_separate(
         return err_mssg
 
 if __name__ == '__main__':  
-    files = perform_separate(2,1,'./music.mp3')
+    # files = perform_separate(2,1,'./music.mp3')
+    args = handle_args() 
+    files = perform_separate(num_stems=args.num_stems,
+                            user_id=args.user_id, 
+                            filename=args.filename.name)
     print(files)
-    # separator = Separator('spleeter:4stems')
-    # separator.separate_to_file(filename_format="music/{filename}_{instrument}.{codec}", 
-    #                         audio_descriptor="./music.mp3", 
-    #                         destination="./")
-
-    # filenames = os.listdir('./music')
-    # print(filenames)
