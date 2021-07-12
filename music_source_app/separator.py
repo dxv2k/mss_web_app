@@ -1,7 +1,8 @@
 from spleeter.separator import Separator
 import argparse
-import sys
 import os
+import warnings 
+warnings.filterwarnings('ignore')
 # separator = Separator('spleeter:' + sys.argv[1:][0])
 # separator.separate_to_file(sys.argv[2:][0], './')
 # parser = argparse.ArgumentParser(description="")
@@ -15,11 +16,15 @@ def perform_separate(
     filename
 ): 
     u''' 
+    Perform separation with given (num_stems,user_id,filename). 
+    Create folder {user_id}/{file_name.codec} (if exists, don't create new) & place
+    separated tracks in its with filename format: {user_id}_{file_name}_{instruent}.{codec} 
     param: 
-        num_stems: int 
-        user_id: str 
+        num_stems: int; 2/4/5 stems 
+        user_id: str; any user_id is accept now 
         filename: str (including extension, {filename}.{codec}) 
     return: 
+        [file_path1, file_path2,...]: file_path of each file 
     '''
     filename = str(filename)
     filename_format = str(user_id) + "_{filename}_{instrument}.{codec}"
@@ -27,17 +32,11 @@ def perform_separate(
     # dest = str(str(user_id) + str(filename))
     try: 
         separator = Separator('spleeter:'+ str(num_stems) + 'stems')
-        # separator.separate_to_file(filename_format="music/" + str(user_id) + "_{filename}_{instrument}.{codec}", 
-        #                         audio_descriptor=filename, 
-        #                         destination="music/" + str(user_id) + str(filename))
         separator.separate_to_file(filename_format=filename_format, 
                                     audio_descriptor=filename, 
                                     destination=dest)
-        # list_files = os.listdir("/music/" + str(user_id) + str(filename)) 
-        # TODO: return file_path instead of file_name only 
-        # suggestion: file_path = [ x = dest + x for x in list_files ]
-        list_files = os.listdir(dest) 
-        return list_files
+        list_files = os.listdir(dest) # get all file_names in destination directory   
+        return [dest + "/" + x for x in list_files] # return file_path of each files
     except Exception as excpt:  
         err_mssg = str(type(excpt)) + "\n" + str(excpt) 
         return err_mssg
