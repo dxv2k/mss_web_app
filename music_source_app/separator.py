@@ -58,6 +58,7 @@ def perform_separate(
 
 if __name__ == '__main__':  
     # files = perform_separate(2,1,'./music.mp3')
+    print("hello") 
     args = handle_args() 
     files = perform_separate(num_stems=args.num_stems,
                             user_id=args.user_id, 

@@ -39,7 +39,8 @@ class FileUpload extends Controller
             $fileName = time() . '_' . $req->file->getClientOriginalName();
             $filePath = $req->file('file')->storeAs('uploads', $fileName, 'public');
             $fileModel->stems = $req->stems; 
-            $fileModel->name = time() . '_' . $req->file->getClientOriginalName();
+            // $fileModel->name = time() . '_' . $req->file->getClientOriginalName();
+            $fileModel->name = $req->file->getClientOriginalName();
             $fileModel->file_path = '/storage/' . $filePath;
             $fileModel->user_id = $req->user()->id; 
             // Testing here 
@@ -50,7 +51,14 @@ class FileUpload extends Controller
             // dd(shell_exec("conda activate audio")); 
             // dd(shell_exec("python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1"));
             // dd(shell_exec("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1"));
-            shell_exec("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1");
+            // shell_exec("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1");
+            $args = " -ns ".$fileModel->stems." -uid ".$fileModel->user_id." -f "."/public".$fileModel->file_path; 
+            $path = "conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/separator.py  -ns $fileModel->stems -uid $fileModel->user_id -f /public/$fileModel->file_path";  
+            // dd($path.$args); 
+            // shell_exec($path.$args."2>&1"); 
+            // dd(exec($path.$args."2>&1")); 
+            dd(shell_exec($path)); 
+            // dd(shell_exec("conda activate audio; python separator.py")); 
             return back()
                 ->with('success', 'File has been uploaded.')
                 ->with('file', $fileName);
