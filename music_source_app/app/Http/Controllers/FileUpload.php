@@ -18,16 +18,20 @@ class FileUpload extends Controller
     {
         return view('file-upload');
     }
-    public function perform_separation($filePath, $destination, $stems_option ){ 
+    public function performSeparation($filePath, $destination, $stems_option ){ 
+        // Prepare args  
+        $command = "conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/st.py";  
+        $args = ""; // stems + audio_src + dest 
 
-        // call python script
-        // return direct to playback page 
+        // Call python script 
+        shell_exec($command.$args); 
+
+        // return direct to playback page  
+        // TODO: return list of audio to playback 
+        return redirect('/playback');  
     }
     public function fileUpload(Request $req)
     {
-        // Debug 
-        // dd($req->all());
-
         $req->validate([
             // Allow size <= 50MB 
             'file' => 'required|mimes:mp3,wav,flac,aac,3gp|max:51200'

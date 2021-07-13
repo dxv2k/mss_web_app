@@ -1,7 +1,8 @@
-import tensorflow as tf 
-print(tf.version.VERSION)
-print('hello')
+# import tensorflow as tf 
 
+def output(): 
+    return('hello')
+output()
 
 
 # Receive music path 

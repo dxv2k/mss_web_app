@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
+
+<!-- Ref: https://medium.com/@matthewcoatney/searchable-audio-player-using-laravel-83967c60ea69 -->
 <body class="bg-dark">
 
     <div class="container " style="max-width:500px;">
@@ -11,7 +13,8 @@
                 <!-- Upload -->
                 <audio controls> 
                 <!-- <source src="./music.mp3" type="audio/mp3">  -->
-                <source src="C:\Users\razor\Documents\github\mss_web_app\music_source_app\music.mp3" type="audio/mpeg"> 
+                <!-- <source src="C:\Users\razor\Documents\github\mss_web_app\music_source_app\music.mp3" type="audio/mpeg">  -->
+                <source src={{asset("storage/app/uploads/music.mp3")}} type="audio/mpeg"> 
                 </audio>  
             </div>
         </div>
