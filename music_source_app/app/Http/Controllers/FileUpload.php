@@ -18,48 +18,43 @@ class FileUpload extends Controller
     {
         return view('file-upload');
     }
+    public function perform_separation($filePath, $destination, $stems_option ){ 
 
+        // call python script
+        // return direct to playback page 
+    }
     public function fileUpload(Request $req)
     {
         // Debug 
         // dd($req->all());
 
         $req->validate([
-            // 'file' => 'required|mimes:csv,txt,xlx,xls,pdf|max:2048'
-            'file' => 'required|mimes:jpg,txt,mp3,wav,flac,aac,3gp|max:51200'
+            // Allow size <= 50MB 
+            'file' => 'required|mimes:mp3,wav,flac,aac,3gp|max:51200'
         ]);
-        // dd(auth()->user()->files());  
-        // dd(auth()->user()->files());  
-        // $user_id = auth()->user()->files(); 
-        // dd($user_id); 
-        // dd($req->user()->username); 
+
+       // TODO: check file name match with file_path/file_name
         $fileModel = new File();
-        // dd($req->stems); 
         if ($req->file()) {
-            $fileName = time() . '_' . $req->file->getClientOriginalName();
+            // $fileName = time() . '_' . $req->file->getClientOriginalName();
+            $fileName = $req->file->getClientOriginalName();
+            // $filePath = $req->file('file')->storeAs('uploads', $fileName, 'public');
             $filePath = $req->file('file')->storeAs('uploads', $fileName, 'public');
-            $fileModel->stems = $req->stems; 
+            $fileModel->stems = $req->stems; // number only  
             // $fileModel->name = time() . '_' . $req->file->getClientOriginalName();
             $fileModel->name = $req->file->getClientOriginalName();
             $fileModel->file_path = '/storage/' . $filePath;
             $fileModel->user_id = $req->user()->id; 
-            // Testing here 
-
-            // 
             $fileModel->save();
 
-            // dd(shell_exec("conda activate audio")); 
-            // dd(shell_exec("python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1"));
-            // dd(shell_exec("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1"));
-            // shell_exec("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/hello.py 2>&1");
             $args = " -ns ".$fileModel->stems." -uid ".$fileModel->user_id." -f "."/public".$fileModel->file_path; 
             $path = "conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/separator.py  -ns $fileModel->stems -uid $fileModel->user_id -f /public/$fileModel->file_path";  
             // dd($path.$args); 
             // shell_exec($path.$args."2>&1"); 
-            // dd(exec($path.$args."2>&1")); 
-            // dd(shell_exec($path)); 
-            // dd(shell_exec("conda activate audio; python separator.py")); 
-            dd(system("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/st.py 2 C:/Users/razor/Documents/github/mss_web_app/music_source_app/trungtam.mp3 ./ 2>&1"));  
+            dd(shell_exec($path."2>&1")); 
+
+            // Working, able to perform separate 
+            // dd(shell_exec("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/st.py 2stems C:/Users/razor/Documents/github/mss_web_app/music_source_app/trungtam.mp3 ./ 2>&1"));  
             return back()
                 ->with('success', 'File has been uploaded.')
                 ->with('file', $fileName);
