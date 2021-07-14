@@ -12,9 +12,7 @@
                 <div class="card-header separator-title text-center">Music Separator</div>
                 <!-- Upload -->
                 <audio controls> 
-                <!-- <source src="./music.mp3" type="audio/mp3">  -->
-                <!-- <source src="C:\Users\razor\Documents\github\mss_web_app\music_source_app\music.mp3" type="audio/mpeg">  -->
-                <source src={{asset("storage/app/uploads/music.mp3")}} type="audio/mpeg"> 
+                <source src="music/music.mp3" type="audio/mp3"> 
                 </audio>  
             </div>
         </div>
