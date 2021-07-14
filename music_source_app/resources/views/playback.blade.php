@@ -19,9 +19,6 @@
                 <source src="{{$path}}" type="audio/wav">
                 Your browser does not support the audio element.
             </audio>
-            <a href="#" class="download-icon ml-5" value="vocals.wav">
-                <i class="fa fa-download"></i>
-            </a>
         </div>
         <hr class="mt-1 mb-1">
         @endforeach

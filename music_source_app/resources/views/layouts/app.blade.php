@@ -38,10 +38,10 @@
                     <!-- <ul class="navbar-nav mr-auto"> -->
                     <ul class="navbar-nav ">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"> Home </a> 
+                            <a class="nav-link" href=" {{ url('/') }}"> Home </a> 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"> Separator </a> 
+                            <a class="nav-link" href="{{ url('/upload-file') }}"> Separator </a> 
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"> Mixer </a> 

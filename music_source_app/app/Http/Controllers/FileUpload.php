@@ -83,19 +83,19 @@ class FileUpload extends Controller
             $fileModel->user_id = $req->user()->id; 
             $fileModel->save();
 
-            // // Perform separation 
-            // // file_path, destination, stems
-            // $destination = $fileModel->user_id.'/'.$fileModel->name; // create folder with user_id  
-            // $this->performSeparation($fileModel->file_path, // file_path
-            //                                 $destination, //destination 
-            //                                 $fileModel->stems); // stems options (2/4/5stems) 
+            // Perform separation 
+            // file_path, destination, stems
+            $destination = $fileModel->user_id.'/'.$fileModel->name; // create folder with user_id  
+            $this->performSeparation($fileModel->file_path, // file_path
+                                            $destination, //destination 
+                                            $fileModel->stems); // stems options (2/4/5stems) 
 
-            // // scan where separted files are
-            // $withoutExt = preg_replace('/\\.[^.\\s]{3,4}$/', '', $fileModel->name);
-            // $separated_files = $this->scanDir('.'.$destination.'/'.$withoutExt);                                             
-            // $files = $this->scanDir('.'.$destination.'/'.$withoutExt,
-            //                         applyPrefix:False); 
-
+            // scan where separted files are
+            $withoutExt = preg_replace('/\\.[^.\\s]{3,4}$/', '', $fileModel->name);
+            $separated_files = $this->scanDir('.'.$destination.'/'.$withoutExt);                                             
+            $files = $this->scanDir('.'.$destination.'/'.$withoutExt,
+                                    applyPrefix:False); 
+            // Test cases 
             // $files = [
             //     2 => "accompaniment.wav",
             //     3 => "bass.wav",
