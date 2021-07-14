@@ -11,14 +11,14 @@
                 <!-- Title -->
                 <div class="card-header separator-title text-center">Music Separator</div>
                 <!-- Upload -->
+
                 <audio controls> 
-                <source src="music/music.mp3" type="audio/mp3"> 
+                <source src=".1/music.mp3/music/piano.wav" type="audio/mp3"> 
+                <!-- <source src=".1music.mp3/music/accompaniment.wav" type="audio/mp3">  -->
                 </audio>  
 
-                @foreach
-                <!-- Scan through files & add src to each audio tag -->
-                @endforeach
-            </div>
+
+           </div>
         </div>
     </div>
 

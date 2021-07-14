@@ -23,6 +23,7 @@ class FileUpload extends Controller
     {
         return view('file-upload');
     }
+
     public function performSeparation($filePath, $destination, $stems_option ){ 
         // convert all args to string dtype  
         $stems_option = $stems_option."stems";  
@@ -36,9 +37,8 @@ class FileUpload extends Controller
         $command = "conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/st.py ";  
         $args = $command.$args; // merge command & args together  
         shell_exec($args); 
-        // TODO: return list of audio to playback 
-        return $destination;  
     }
+
     public function scanDir($path){ 
         /* 
             Scan given directory & return every files in directory   
@@ -70,28 +70,26 @@ class FileUpload extends Controller
         // Push uploaded files into database 
         $fileModel = new File();
         if ($req->file()) {
-            // $fileName = time() . '_' . $req->file->getClientOriginalName();
             $fileName = $req->file->getClientOriginalName();
-            // $filePath = $req->file('file')->storeAs('uploads', $fileName, 'public');
             $filePath = $req->file('file')->storeAs('uploads', $fileName, 'public');
             $fileModel->stems = $req->stems; // number only  
-            // $fileModel->name = time() . '_' . $req->file->getClientOriginalName();
             $fileModel->name = $req->file->getClientOriginalName();
             $fileModel->file_path = '/storage/' . $filePath;
             $fileModel->user_id = $req->user()->id; 
             $fileModel->save();
 
-            // dd($this->scanDir('.1/music.mp3/music'));             
 
             // Perform separation 
             // file_path, destination, stems
-            $destination = $fileModel->user_id."/".$fileModel->name; // create folder with user_id  
-            $dir = $this->performSeparation($fileModel->file_path, // file_path
+            $destination = $fileModel->user_id.'/'.$fileModel->name; // create folder with user_id  
+            $this->performSeparation($fileModel->file_path, // file_path
                                             $destination, //destination 
                                             $fileModel->stems); // stems options (2/4/5stems) 
-            // dd($dir); 
-            $separated_files = $this->scanDir('.'.$dir.'/music');                                             
-            dd($separated_files); 
+
+            // scan where separted files are
+            $withoutExt = preg_replace('/\\.[^.\\s]{3,4}$/', '', $fileModel->name);
+            $separated_files = $this->scanDir('.'.$destination.'/'.$withoutExt);                                             
+            // dd($separated_files); 
 
             // return redirect('/playback');  
             return back()
