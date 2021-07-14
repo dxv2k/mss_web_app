@@ -96,22 +96,22 @@ class FileUpload extends Controller
             // $files = $this->scanDir('.'.$destination.'/'.$withoutExt,
             //                         applyPrefix:False); 
 
-            $files = [
-                2 => "accompaniment.wav",
-                3 => "bass.wav",
-                4 => "drums.wav",
-                5 => "other.wav",
-                6 => "piano.wav",
-                7 => "vocals.wav"
-            ];  
-            $separated_files = [
-                2 => ".1/music.mp3/music/accompaniment.wav", 
-                3 => ".1/music.mp3/music/bass.wav", 
-                4 => ".1/music.mp3/music/drums.wav",
-                5 => ".1/music.mp3/music/other.wav",
-                6 => ".1/music.mp3/music/piano.wav",
-                7 => ".1/music.mp3/music/vocals.wav"
-            ]; 
+            // $files = [
+            //     2 => "accompaniment.wav",
+            //     3 => "bass.wav",
+            //     4 => "drums.wav",
+            //     5 => "other.wav",
+            //     6 => "piano.wav",
+            //     7 => "vocals.wav"
+            // ];  
+            // $separated_files = [
+            //     2 => ".1/music.mp3/music/accompaniment.wav", 
+            //     3 => ".1/music.mp3/music/bass.wav", 
+            //     4 => ".1/music.mp3/music/drums.wav",
+            //     5 => ".1/music.mp3/music/other.wav",
+            //     6 => ".1/music.mp3/music/piano.wav",
+            //     7 => ".1/music.mp3/music/vocals.wav"
+            // ]; 
             $files = preg_replace('/\\.[^.\\s]{3,4}$/', '', $files);
             $files = array_combine($files, $separated_files); 
             // dd($files); 

@@ -21,3 +21,8 @@
 .card-button {
   vertical-align: baseline;
 }
+
+.track-list-font {
+  color: #ff8a86 !important;
+  font-size: 18px;
+}
