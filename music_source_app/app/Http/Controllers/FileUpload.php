@@ -6,38 +6,48 @@ use Illuminate\Http\Request;
 use App\Models\File;
 use App\Models\User;
 
+use function GuzzleHttp\Psr7\str;
 
 // // Call python script
 // use Symfony\Component\Process\Process;
 // use Symfony\Component\Process\Exception\ProcessFailedException;
 
-
+// TODO: Update FileUpload to FileUploadController
 class FileUpload extends Controller
 {
+    public function __construct(){ 
+        set_time_limit(300); 
+    }
+    
     public function createForm()
     {
         return view('file-upload');
     }
     public function performSeparation($filePath, $destination, $stems_option ){ 
         // Prepare args  
-        $command = "conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/st.py";  
-        $args = ""; // stems + audio_src + dest 
+        $stems_option = $stems_option."stems";  
+        $destination = strval($destination.$stems_option); // create folder with user_id  
+        $filePath = strval($filePath); 
+        $args = "$stems_option .$filePath .$destination"; 
+        dd($destination); 
 
         // Call python script 
-        shell_exec($command.$args); 
-
-        // return direct to playback page  
+        // $command = "conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/st.py $stems_option .$filePath .$destination";  
+        $command = "conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/st.py ";  
+        $args = $command.$args; // merge command & args together  
+        shell_exec($args); 
         // TODO: return list of audio to playback 
-        return redirect('/playback');  
+        // return 
     }
     public function fileUpload(Request $req)
     {
+        // Check validate 
         $req->validate([
             // Allow size <= 50MB 
             'file' => 'required|mimes:mp3,wav,flac,aac,3gp|max:51200'
         ]);
 
-       // TODO: check file name match with file_path/file_name
+        // Push uploaded files into database 
         $fileModel = new File();
         if ($req->file()) {
             // $fileName = time() . '_' . $req->file->getClientOriginalName();
@@ -50,15 +60,11 @@ class FileUpload extends Controller
             $fileModel->file_path = '/storage/' . $filePath;
             $fileModel->user_id = $req->user()->id; 
             $fileModel->save();
+            
+            // file_path, destination, stems
+            $this->performSeparation($fileModel->file_path,$fileModel->user_id,$fileModel->stems); 
 
-            $args = " -ns ".$fileModel->stems." -uid ".$fileModel->user_id." -f "."/public".$fileModel->file_path; 
-            $path = "conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/separator.py  -ns $fileModel->stems -uid $fileModel->user_id -f /public/$fileModel->file_path";  
-            // dd($path.$args); 
-            // shell_exec($path.$args."2>&1"); 
-            dd(shell_exec($path."2>&1")); 
-
-            // Working, able to perform separate 
-            // dd(shell_exec("conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/st.py 2stems C:/Users/razor/Documents/github/mss_web_app/music_source_app/trungtam.mp3 ./ 2>&1"));  
+            // return redirect('/playback');  
             return back()
                 ->with('success', 'File has been uploaded.')
                 ->with('file', $fileName);

@@ -14,6 +14,10 @@
                 <audio controls> 
                 <source src="music/music.mp3" type="audio/mp3"> 
                 </audio>  
+
+                @foreach
+                <!-- Scan through files & add src to each audio tag -->
+                @endforeach
             </div>
         </div>
     </div>
