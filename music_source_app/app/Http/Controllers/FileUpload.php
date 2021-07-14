@@ -39,11 +39,28 @@ class FileUpload extends Controller
         // TODO: return list of audio to playback 
         return $destination;  
     }
-    public function scanDir($destination){ 
+    public function scanDir($path){ 
+        /* 
+            Scan given directory & return every files in directory   
+            with full file path 
+            E.g: $path/$item_name  
+        */   
+        // scan all files in given directory & remove '.','..'
+        $files = scandir($path); 
+        $files = array_diff($files,array('.','..')); 
 
+        // add prefix of given path
+        $prefixed_array = substr_replace($files, $path.'/', 0, 0);
+
+        return $prefixed_array; 
     }
     public function fileUpload(Request $req)
     {
+        /*
+            Handling upload -> send uploaded to database  
+                            -> call python script 
+                            -> return separated files_path to playback view  
+        */
         // Check validate 
         $req->validate([
             // Allow size <= 50MB 
@@ -63,15 +80,18 @@ class FileUpload extends Controller
             $fileModel->file_path = '/storage/' . $filePath;
             $fileModel->user_id = $req->user()->id; 
             $fileModel->save();
-            
-            dd(glob(".1/music.mp3/music")); 
+
+            // dd($this->scanDir('.1/music.mp3/music'));             
 
             // Perform separation 
             // file_path, destination, stems
             $destination = $fileModel->user_id."/".$fileModel->name; // create folder with user_id  
-            $dest = $this->performSeparation($fileModel->file_path, // file_path
+            $dir = $this->performSeparation($fileModel->file_path, // file_path
                                             $destination, //destination 
                                             $fileModel->stems); // stems options (2/4/5stems) 
+            // dd($dir); 
+            $separated_files = $this->scanDir('.'.$dir.'/music');                                             
+            dd($separated_files); 
 
             // return redirect('/playback');  
             return back()
