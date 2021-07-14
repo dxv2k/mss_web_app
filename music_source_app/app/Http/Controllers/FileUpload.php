@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\File;
 use App\Models\User;
+use phpDocumentor\Reflection\PseudoTypes\False_;
 
 use function GuzzleHttp\Psr7\str;
 
@@ -39,7 +40,8 @@ class FileUpload extends Controller
         shell_exec($args); 
     }
 
-    public function scanDir($path){ 
+    public function scanDir($path, 
+                           $applyPrefix = True){ 
         /* 
             Scan given directory & return every files in directory   
             with full file path 
@@ -50,10 +52,13 @@ class FileUpload extends Controller
         $files = array_diff($files,array('.','..')); 
 
         // add prefix of given path
-        $prefixed_array = substr_replace($files, $path.'/', 0, 0);
-
-        return $prefixed_array; 
+        if($applyPrefix){ 
+            $prefixed_array = substr_replace($files, $path.'/', 0, 0);
+            return $prefixed_array; 
+        } 
+        return $files; 
     }
+
     public function fileUpload(Request $req)
     {
         /*
@@ -78,23 +83,43 @@ class FileUpload extends Controller
             $fileModel->user_id = $req->user()->id; 
             $fileModel->save();
 
+            // // Perform separation 
+            // // file_path, destination, stems
+            // $destination = $fileModel->user_id.'/'.$fileModel->name; // create folder with user_id  
+            // $this->performSeparation($fileModel->file_path, // file_path
+            //                                 $destination, //destination 
+            //                                 $fileModel->stems); // stems options (2/4/5stems) 
 
-            // Perform separation 
-            // file_path, destination, stems
-            $destination = $fileModel->user_id.'/'.$fileModel->name; // create folder with user_id  
-            $this->performSeparation($fileModel->file_path, // file_path
-                                            $destination, //destination 
-                                            $fileModel->stems); // stems options (2/4/5stems) 
+            // // scan where separted files are
+            // $withoutExt = preg_replace('/\\.[^.\\s]{3,4}$/', '', $fileModel->name);
+            // $separated_files = $this->scanDir('.'.$destination.'/'.$withoutExt);                                             
+            // $files = $this->scanDir('.'.$destination.'/'.$withoutExt,
+            //                         applyPrefix:False); 
 
-            // scan where separted files are
-            $withoutExt = preg_replace('/\\.[^.\\s]{3,4}$/', '', $fileModel->name);
-            $separated_files = $this->scanDir('.'.$destination.'/'.$withoutExt);                                             
-            // dd($separated_files); 
+            $files = [
+                2 => "accompaniment.wav",
+                3 => "bass.wav",
+                4 => "drums.wav",
+                5 => "other.wav",
+                6 => "piano.wav",
+                7 => "vocals.wav"
+            ];  
+            $separated_files = [
+                2 => ".1/music.mp3/music/accompaniment.wav", 
+                3 => ".1/music.mp3/music/bass.wav", 
+                4 => ".1/music.mp3/music/drums.wav",
+                5 => ".1/music.mp3/music/other.wav",
+                6 => ".1/music.mp3/music/piano.wav",
+                7 => ".1/music.mp3/music/vocals.wav"
+            ]; 
+            $files = preg_replace('/\\.[^.\\s]{3,4}$/', '', $files);
+            $files = array_combine($files, $separated_files); 
+            // dd($files); 
+            return view('/playback',compact("files"));  
 
-            // return redirect('/playback');  
-            return back()
-                ->with('success', 'File has been uploaded.')
-                ->with('file', $fileName);
+            // return back()
+            //     ->with('success', 'File has been uploaded.')
+            //     ->with('file', $fileName);
         }
     }
 }

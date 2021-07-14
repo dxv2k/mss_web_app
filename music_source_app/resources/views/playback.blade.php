@@ -9,14 +9,14 @@
         <div class="row">
             <div class="card card-bg">
                 <!-- Title -->
-                <div class="card-header separator-title text-center">Music Separator</div>
+                <div class="card-header separator-title text-center">Playback</div>
                 <!-- Upload -->
-
-                <audio controls> 
-                <source src=".1/music.mp3/music/piano.wav" type="audio/mp3"> 
-                <!-- <source src=".1music.mp3/music/accompaniment.wav" type="audio/mp3">  -->
-                </audio>  
-
+                @foreach($files as $name => $path)
+                    <td>{{$name}}</td>
+                    <audio controls> 
+                    <source src="{{$path}}" type="audio/mp3"> 
+                    </audio>  
+                @endforeach
 
            </div>
         </div>
