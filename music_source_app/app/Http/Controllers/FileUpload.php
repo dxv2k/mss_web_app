@@ -24,20 +24,23 @@ class FileUpload extends Controller
         return view('file-upload');
     }
     public function performSeparation($filePath, $destination, $stems_option ){ 
-        // Prepare args  
+        // convert all args to string dtype  
         $stems_option = $stems_option."stems";  
-        $destination = strval($destination.$stems_option); // create folder with user_id  
+        $destination = strval($destination); 
         $filePath = strval($filePath); 
+
+        // Prepare args  
         $args = "$stems_option .$filePath .$destination"; 
-        dd($destination); 
 
         // Call python script 
-        // $command = "conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/st.py $stems_option .$filePath .$destination";  
         $command = "conda activate audio && python C:/Users/razor/Documents/github/mss_web_app/music_source_app/st.py ";  
         $args = $command.$args; // merge command & args together  
         shell_exec($args); 
         // TODO: return list of audio to playback 
-        // return 
+        return $destination;  
+    }
+    public function scanDir($destination){ 
+
     }
     public function fileUpload(Request $req)
     {
@@ -61,8 +64,14 @@ class FileUpload extends Controller
             $fileModel->user_id = $req->user()->id; 
             $fileModel->save();
             
+            dd(glob(".1/music.mp3/music")); 
+
+            // Perform separation 
             // file_path, destination, stems
-            $this->performSeparation($fileModel->file_path,$fileModel->user_id,$fileModel->stems); 
+            $destination = $fileModel->user_id."/".$fileModel->name; // create folder with user_id  
+            $dest = $this->performSeparation($fileModel->file_path, // file_path
+                                            $destination, //destination 
+                                            $fileModel->stems); // stems options (2/4/5stems) 
 
             // return redirect('/playback');  
             return back()
